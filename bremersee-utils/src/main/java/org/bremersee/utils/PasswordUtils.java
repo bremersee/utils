@@ -32,10 +32,10 @@ public abstract class PasswordUtils {
     /**
      * An array with regular expressions to validate the quality of a password:
      * <ul>
-     * <li>{@code PARTIAL_REGEX_CHECKS[0] : lower chars ({@code a-z})</li>
-     * <li>{@code PARTIAL_REGEX_CHECKS[1] : upper chars ({@code A-Z})</li>
-     * <li>{@code PARTIAL_REGEX_CHECKS[2] : numbers ({@code 0-9})</li>
-     * <li>{@code PARTIAL_REGEX_CHECKS[3] : symbols (
+     * <li>{@code PARTIAL_REGEX_CHECKS[0]} : lower chars ({@code a-z})</li>
+     * <li>{@code PARTIAL_REGEX_CHECKS[1]} : upper chars ({@code A-Z})</li>
+     * <li>{@code PARTIAL_REGEX_CHECKS[2]} : numbers ({@code 0-9})</li>
+     * <li>{@code PARTIAL_REGEX_CHECKS[3]} : symbols (
      * {@code ~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/})</li>
      * </ul>
      */
