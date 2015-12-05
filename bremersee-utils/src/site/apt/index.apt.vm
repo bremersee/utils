@@ -5,23 +5,23 @@ Bremersee Utils
 *---------------------+--------+-----------------------------------------+
 || Class              || Since || Description                            |
 *---------------------+--------+-----------------------------------------+
-| CastUtils           | 1.0.x  | Cast collections, lists, sets and maps  |
+| CastUtils           | 1.0.2  | Cast collections, lists, sets and maps  |
 *---------------------+--------+-----------------------------------------+
-| CodingUtils         | 1.0.x  | Hashes, encoding and decoding           |
+| CodingUtils         | 1.0.2  | Hashes, encoding and decoding           |
 *---------------------+--------+-----------------------------------------+
-| IoUtils             | 1.0.x  | Input-output operations                 |
+| IoUtils             | 1.0.2  | Input-output operations                 |
 *---------------------+--------+-----------------------------------------+
-| MailUtils           | 1.0.x  | Email address utilities                 |
+| MailUtils           | 1.0.2  | Email address utilities                 |
 *---------------------+--------+-----------------------------------------+
-| MapUtils            | 1.0.x  | Sort map values, access values          |
+| MapUtils            | 1.0.2  | Sort map values, access values          |
 *---------------------+--------+-----------------------------------------+
-| PasswordUtils       | 1.0.x  | Password quality, password generation   |
+| PasswordUtils       | 1.0.2  | Password quality, password generation   |
 *---------------------+--------+-----------------------------------------+
-| PhoneNumberUtils    | 1.0.x  | Phone number utilities                  |
+| PhoneNumberUtils    | 1.0.2  | Phone number utilities                  |
 *---------------------+--------+-----------------------------------------+
-| ResourceBundleUtils | 1.0.x  | Some helper for resource bundles        |
+| ResourceBundleUtils | 1.0.2  | Some helper for resource bundles        |
 *---------------------+--------+-----------------------------------------+
-| TagUtils            | 1.0.x  | Tagging methods                         |
+| TagUtils            | 1.0.2  | Tagging methods                         |
 *---------------------+--------+-----------------------------------------+
-| WebUtils            | 1.0.x  | Web stuff methods                       |
+| WebUtils            | 1.0.2  | Web stuff methods                       |
 *---------------------+--------+-----------------------------------------+
