@@ -6,7 +6,7 @@
     <version>1.0.2-SNAPSHOT</version>
     <name>Bremersee Utilities</name>
     <description>Bremersee utilities</description>
-    <url>https://bremersee.org/nexus/content/sites/sites/${project.artifactId}/${project.version}/</url>
+    <url>http://bremersee.github.io/utils/</url>
 
     <properties>
         <github.global.server>github</github.global.server>
@@ -44,13 +44,13 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/bremersee/comparator</url>
-        <connection>scm:git:git://github.com/bremersee/comparator.git</connection>
-        <developerConnection>scm:git:git@github.com:bremersee/comparator.git</developerConnection>
+        <url>https://github.com/bremersee/utils</url>
+        <connection>scm:git:git://github.com/bremersee/utils.git</connection>
+        <developerConnection>scm:git:git@github.com:bremersee/utils.git</developerConnection>
     </scm>
 
     <issueManagement>
-        <url>https://github.com/bremersee/comparator/issues</url>
+        <url>https://github.com/bremersee/utils/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
