@@ -18,6 +18,7 @@ package org.bremersee.utils;
 
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 /**
@@ -45,7 +46,7 @@ public abstract class WebUtils {
      * @return the URL with the appended parameter
      */
     public static String addUrlParameter(String url, String name, String value) {
-        return addUrlParameter(url, name, value, Charset.forName("UTF-8"));
+        return addUrlParameter(url, name, value, StandardCharsets.UTF_8);
     }
 
     /**
