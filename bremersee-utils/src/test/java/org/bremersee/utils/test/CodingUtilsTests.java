@@ -40,7 +40,7 @@ public class CodingUtilsTests {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         
         byte[] digest = CodingUtils.digestSilenty(
-                CodingUtils.getInstanceSilently("MD5"), 
+                CodingUtils.getMessageDigestSilently("MD5"), 
                 in, 
                 true,
                 new InputStreamListener() {
