@@ -50,7 +50,23 @@ public abstract class CodingUtils {
      *             if a MessageDigestSpi implementation for the specified
      *             algorithm is not available
      */
+    @Deprecated
     public static MessageDigest getInstanceSilently(String algorithm) {
+        return getMessageDigestSilently(algorithm);
+    }
+
+    /**
+     * Returns a MessageDigest object that implements the specified digest
+     * algorithm.
+     * 
+     * @param algorithm
+     *            the name of the algorithm requested
+     * @return a MessageDigest object that implements the specified algorithm
+     * @throws RuntimeException
+     *             if a MessageDigestSpi implementation for the specified
+     *             algorithm is not available
+     */
+    public static MessageDigest getMessageDigestSilently(String algorithm) {
         Validate.notBlank(algorithm, "Algotithm must not be null or blank.");
         try {
             return MessageDigest.getInstance(algorithm);
@@ -72,10 +88,28 @@ public abstract class CodingUtils {
      *             if a MessageDigestSpi implementation for the specified
      *             algorithm is not available from the specified Provider object
      */
+    @Deprecated
     public static MessageDigest getInstanceSilently(String algorithm, String provider) {
+        return getMessageDigestSilently(algorithm, provider);
+    }
+
+    /**
+     * Returns a MessageDigest object that implements the specified digest
+     * algorithm.
+     * 
+     * @param algorithm
+     *            the name of the algorithm requested
+     * @param provider
+     *            the provider (may be {@code null})
+     * @return a MessageDigest object that implements the specified algorithm
+     * @throws RuntimeException
+     *             if a MessageDigestSpi implementation for the specified
+     *             algorithm is not available from the specified Provider object
+     */
+    public static MessageDigest getMessageDigestSilently(String algorithm, String provider) {
         Validate.notBlank(algorithm, "Algotithm must not be null or blank.");
         if (StringUtils.isBlank(provider)) {
-            return getInstanceSilently(algorithm);
+            return getMessageDigestSilently(algorithm);
         }
         try {
             return MessageDigest.getInstance(algorithm, provider);
@@ -97,10 +131,28 @@ public abstract class CodingUtils {
      *             if a MessageDigestSpi implementation for the specified
      *             algorithm is not available from the specified Provider object
      */
+    @Deprecated
     public static MessageDigest getInstanceSilently(String algorithm, Provider provider) {
+        return getMessageDisgestSilently(algorithm, provider);
+    }
+
+    /**
+     * Returns a MessageDigest object that implements the specified digest
+     * algorithm.
+     * 
+     * @param algorithm
+     *            the name of the algorithm requested
+     * @param provider
+     *            the provider (may be {@code null})
+     * @return a MessageDigest object that implements the specified algorithm
+     * @throws RuntimeException
+     *             if a MessageDigestSpi implementation for the specified
+     *             algorithm is not available from the specified Provider object
+     */
+    public static MessageDigest getMessageDisgestSilently(String algorithm, Provider provider) {
         Validate.notBlank(algorithm, "Algotithm must not be null or blank.");
         if (provider == null) {
-            return getInstanceSilently(algorithm);
+            return getMessageDigestSilently(algorithm);
         }
         try {
             return MessageDigest.getInstance(algorithm, provider);
