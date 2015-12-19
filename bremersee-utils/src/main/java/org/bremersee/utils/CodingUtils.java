@@ -49,6 +49,7 @@ public abstract class CodingUtils {
      * @throws RuntimeException
      *             if a MessageDigestSpi implementation for the specified
      *             algorithm is not available
+     * @deprecated Use {@link #getMessageDigestSilently(String)} instead.
      */
     @Deprecated
     public static MessageDigest getInstanceSilently(String algorithm) {
@@ -87,6 +88,7 @@ public abstract class CodingUtils {
      * @throws RuntimeException
      *             if a MessageDigestSpi implementation for the specified
      *             algorithm is not available from the specified Provider object
+     * @deprecated Use {@link #getMessageDigestSilently(String, String)} instead.
      */
     @Deprecated
     public static MessageDigest getInstanceSilently(String algorithm, String provider) {
@@ -130,6 +132,7 @@ public abstract class CodingUtils {
      * @throws RuntimeException
      *             if a MessageDigestSpi implementation for the specified
      *             algorithm is not available from the specified Provider object
+     * @deprecated Use {@link #getMessageDisgestSilently(String, Provider)} instead.
      */
     @Deprecated
     public static MessageDigest getInstanceSilently(String algorithm, Provider provider) {
