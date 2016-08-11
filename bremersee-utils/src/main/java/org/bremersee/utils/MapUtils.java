@@ -163,7 +163,7 @@ public abstract class MapUtils {
      */
     public static Collection<?> getValueAsCollection(Map<? extends Object, ? extends Object> map, Object key) {
     	Validate.notNull(map, "Map must not be null.");
-    	Validate.notNull(map, "Key must not be null.");
+    	Validate.notNull(key, "Key must not be null.");
         Object value = map.get(key);
         if (value == null) {
             return Collections.emptyList();
@@ -172,8 +172,31 @@ public abstract class MapUtils {
             return (Collection<?>) value;
         }
         if (value.getClass().isArray()) {
-            Object[] values = (Object[]) value;
-            return Arrays.asList(values);
+            if (value instanceof boolean[]) {
+                boolean[] values = (boolean[])value;
+                return Arrays.asList(values);
+            } else if (value instanceof byte[]) {
+                byte[] values = (byte[])value;
+                return Arrays.asList(values);
+            } else if (value instanceof int[]) {
+                int[] values = (int[])value;
+                return Arrays.asList(values);
+            } else if (value instanceof long[]) {
+                long[] values = (long[])value;
+                return Arrays.asList(values);
+            } else if (value instanceof char[]) {
+                char[] values = (char[])value;
+                return Arrays.asList(values);
+            } else if (value instanceof float[]) {
+                float[] values = (float[])value;
+                return Arrays.asList(values);
+            } else if (value instanceof double[]) {
+                double[] values = (double[])value;
+                return Arrays.asList(values);
+            } else {
+                Object[] values = (Object[]) value;
+                return Arrays.asList(values);
+            }
         }
         List<Object> list = new ArrayList<Object>(1);
         list.add(value);
