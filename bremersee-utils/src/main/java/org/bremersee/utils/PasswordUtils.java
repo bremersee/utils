@@ -54,7 +54,8 @@ public abstract class PasswordUtils {
     /**
      * Symbols
      */
-    private static final String SYMBOLS = "~!@#$%^&*_-+=`|\\(){}[]:;\"'<>,.?/";
+    private static final String SYMBOLS = "~!@#$%&*_-+=(){}[]:;'<>,.?";
+    //private static final String SYMBOLS = "~!@#$%^&*_-+=`|\\(){}[]:;\"'<>,.?/"; // SONAR
 
     /**
      * Numbers
@@ -81,16 +82,16 @@ public abstract class PasswordUtils {
     private static final NumberFormat QUALITY_RESULT_NUMBER_FORMATTER = NumberFormat.getNumberInstance(Locale.US);
 
     static {
-        StringBuilder sb = new StringBuilder();
-        char A = 'A'; // NOSONAR
-        char Z = 'Z'; // NOSONAR
+        final StringBuilder sb = new StringBuilder();
+        final char A = 'A'; // NOSONAR
+        final char Z = 'Z'; // NOSONAR
         for (int i = (int) A; i <= (int) Z; i++) {
             sb.append((char) i);
         }
         UPPER_CHARS = sb.toString();
 
-        char a = 'a';
-        char z = 'z';
+        final char a = 'a';
+        final char z = 'z';
         for (int i = (int) a; i <= (int) z; i++) {
             sb.append((char) i);
         }
@@ -171,14 +172,14 @@ public abstract class PasswordUtils {
                 len = length;
             }
         }
-        char[] chars = new char[len];
+        final char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
             chars[i] = findChar(withSymbols, random);
         }
         if (len > 0 && !containsLowerCase(chars)) {
             char c = 'l';
             while (c == 'l') {
-                int n = random.nextInt(LOWER_CHARS.length());
+                final int n = random.nextInt(LOWER_CHARS.length());
                 c = LOWER_CHARS.charAt(n);
             }
             chars[0] = c;
@@ -186,18 +187,18 @@ public abstract class PasswordUtils {
         if (len > 1 && !containsUpperCase(chars)) {
             char c = 'I';
             while (c == 'I') {
-                int n = random.nextInt(UPPER_CHARS.length());
+                final int n = random.nextInt(UPPER_CHARS.length());
                 c = UPPER_CHARS.charAt(n);
             }
             chars[1] = c;
         }
         if (len > 2 && !containsNumber(chars)) {
-            int n = random.nextInt(NUMBERS.length());
+            final int n = random.nextInt(NUMBERS.length());
             char c = NUMBERS.charAt(n);
             chars[2] = c;
         }
-        if (len > 3 && !containsSymbol(chars)) {
-            int n = random.nextInt(SYMBOLS.length());
+        if (withSymbols && len > 3 && !containsSymbol(chars)) {
+            final int n = random.nextInt(SYMBOLS.length());
             char c = SYMBOLS.charAt(n);
             chars[3] = c;
         }
@@ -214,11 +215,12 @@ public abstract class PasswordUtils {
      * @return a value between 0 (bad quality) and 1 (very good quality
      */
     @SuppressWarnings("SameParameterValue")
-    public static double getPasswordQuality(String clearPassword, Integer minLength) {
+    public static double getPasswordQuality(final String clearPassword, final Integer minLength) {
+
         if (StringUtils.isBlank(clearPassword) || (minLength != null && clearPassword.length() < minLength)) {
             return 0.;
         }
-        double value = 1. / PARTIAL_REGEX_CHECKS.length;
+        final double value = 1. / PARTIAL_REGEX_CHECKS.length;
         double result = 0.;
         for (String PARTIAL_REGEX_CHECK : PARTIAL_REGEX_CHECKS) {
             if (Pattern.matches(PARTIAL_REGEX_CHECK, clearPassword)) {
@@ -239,23 +241,23 @@ public abstract class PasswordUtils {
         return findChar(withSymbols, ran);
     }
 
-    private static boolean containsLowerCase(char[] cs) {
-        String s = cs == null ? "" : new String(cs);
+    private static boolean containsLowerCase(final char[] cs) {
+        final String s = cs == null ? "" : new String(cs);
         return s.matches(PARTIAL_REGEX_CHECKS[0]);
     }
 
-    private static boolean containsUpperCase(char[] cs) {
-        String s = cs == null ? "" : new String(cs);
+    private static boolean containsUpperCase(final char[] cs) {
+        final String s = cs == null ? "" : new String(cs);
         return s.matches(PARTIAL_REGEX_CHECKS[1]);
     }
 
-    private static boolean containsNumber(char[] cs) {
-        String s = cs == null ? "" : new String(cs);
+    private static boolean containsNumber(final char[] cs) {
+        final String s = cs == null ? "" : new String(cs);
         return s.matches(PARTIAL_REGEX_CHECKS[2]);
     }
 
-    private static boolean containsSymbol(char[] cs) {
-        String s = cs == null ? "" : new String(cs);
+    private static boolean containsSymbol(final char[] cs) {
+        final String s = cs == null ? "" : new String(cs);
         return s.matches(PARTIAL_REGEX_CHECKS[3]);
     }
 

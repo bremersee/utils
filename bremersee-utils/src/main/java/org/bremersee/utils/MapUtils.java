@@ -16,21 +16,12 @@
 
 package org.bremersee.utils;
 
+import org.apache.commons.lang3.Validate;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import org.apache.commons.lang3.Validate;
 
 /**
  * <p>
@@ -41,8 +32,11 @@ import org.apache.commons.lang3.Validate;
  */
 public abstract class MapUtils {
 
+    /**
+     * Never construct.
+     */
     private MapUtils() {
-        // utility class, never constructed
+        super();
     }
 
     /**
@@ -65,7 +59,7 @@ public abstract class MapUtils {
          *
          * @param valueComparator a value comparator or {@code null}
          */
-        MapEntryComparator(Comparator<?> valueComparator) {
+        MapEntryComparator(final Comparator<?> valueComparator) {
             this.valueComparator = valueComparator;
         }
 
@@ -75,12 +69,12 @@ public abstract class MapUtils {
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         @Override
-        public int compare(Entry<?, ?> e1, Entry<?, ?> e2) {
+        public int compare(final Entry<?, ?> e1, final Entry<?, ?> e2) {
             int c = 0;
             if (e1 != null && e1.getValue() != null && e2 != null && e2.getValue() != null) {
 
-                Object value1 = e1.getValue();
-                Object value2 = e2.getValue();
+                final Object value1 = e1.getValue();
+                final Object value2 = e2.getValue();
                 if (valueComparator != null) {
                     c = valueComparator.compare(value1, value2);
                 } else if (value1 instanceof Comparable && value2 instanceof Comparable) {
@@ -102,7 +96,7 @@ public abstract class MapUtils {
      * @param map the map
      * @return the sorted map
      */
-    public static <K, V> Map<K, V> sort(Map<? extends K, ? extends V> map) {
+    public static <K, V> Map<K, V> sort(final Map<? extends K, ? extends V> map) {
         return sort(map, null);
     }
 
@@ -114,13 +108,14 @@ public abstract class MapUtils {
      * @return the sorted map
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> Map<K, V> sort(Map<? extends K, ? extends V> map, Comparator<? extends V> valueComparator) {
+    public static <K, V> Map<K, V> sort(final Map<? extends K, ? extends V> map,
+                                        final Comparator<? extends V> valueComparator) {
 
         Validate.notNull(map, "Map must not be null.");
-        List<Entry<?, ?>> entries = new ArrayList<Entry<?, ?>>(map.entrySet()); // NOSONAR
+        final List<Entry<?, ?>> entries = new ArrayList<Entry<?, ?>>(map.entrySet()); // NOSONAR
         Collections.sort(entries, new MapEntryComparator(valueComparator));
-        Map<Object, Object> sortedMap = new LinkedHashMap<>(entries.size());
-        for (Entry<?, ?> entry : entries) {
+        final Map<Object, Object> sortedMap = new LinkedHashMap<>(entries.size());
+        for (final Entry<?, ?> entry : entries) {
             sortedMap.put(entry.getKey(), entry.getValue());
         }
         return (Map<K, V>) Collections.unmodifiableMap(sortedMap);
@@ -135,9 +130,9 @@ public abstract class MapUtils {
      * @param defaultValue a default value
      * @return the first value if it exists otherwise the default value
      */
-    public static Object getFirstValue(Map<?, ?> map, Object key,
-                                       Object defaultValue) {
-        List<?> list = getValueAsList(map, key);
+    public static Object getFirstValue(final Map<?, ?> map, final Object key,
+                                       final Object defaultValue) {
+        final List<?> list = getValueAsList(map, key);
         if (list.isEmpty()) {
             return defaultValue;
         }
@@ -152,10 +147,11 @@ public abstract class MapUtils {
      * @param key the key
      * @return a collection
      */
+    @SuppressWarnings("ManualArrayToCollectionCopy")
     public static Collection<?> getValueAsCollection(Map<?, ?> map, Object key) { // NOSONAR
         Validate.notNull(map, "Map must not be null.");
         Validate.notNull(map, "Key must not be null.");
-        Object value = map.get(key);
+        final Object value = map.get(key);
         if (value == null) {
             return Collections.emptyList();
         }
@@ -163,10 +159,72 @@ public abstract class MapUtils {
             return (Collection<?>) value;
         }
         if (value.getClass().isArray()) {
-            Object[] values = (Object[]) value;
-            return Arrays.asList(values);
+            if (value instanceof boolean[]) {
+                final boolean[] values = (boolean[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final boolean v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else if (value instanceof byte[]) {
+                final byte[] values = (byte[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final byte v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else if (value instanceof short[]) {
+                final short[] values = (short[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final short v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else if (value instanceof int[]) {
+                final int[] values = (int[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final int v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else if (value instanceof long[]) {
+                final long[] values = (long[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final long v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else if (value instanceof char[]) {
+                final char[] values = (char[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final char v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else if (value instanceof float[]) {
+                final float[] values = (float[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final float v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else if (value instanceof double[]) {
+                final double[] values = (double[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final double v : values) {
+                    list.add(v);
+                }
+                return list;
+            } else {
+                final Object[] values = (Object[]) value;
+                final List<Object> list = new ArrayList<>(values.length);
+                for (final Object v : values) {
+                    list.add(v);
+                }
+                return list;
+            }
         }
-        List<Object> list = new ArrayList<>(1);
+        final List<Object> list = new ArrayList<>(1);
         list.add(value);
         return list;
     }
@@ -179,8 +237,8 @@ public abstract class MapUtils {
      * @param key the key
      * @return a list
      */
-    public static List<?> getValueAsList(Map<?, ?> map, Object key) { // NOSONAR
-        Collection<?> col = getValueAsCollection(map, key);
+    public static List<?> getValueAsList(final Map<?, ?> map, final Object key) { // NOSONAR
+        final Collection<?> col = getValueAsCollection(map, key);
         if (col instanceof List) {
             return (List<?>) col;
         }
@@ -196,8 +254,8 @@ public abstract class MapUtils {
      * @return a set
      */
     @SuppressWarnings("SameParameterValue")
-    public static Set<?> getValueAsSet(Map<?, ?> map, Object key) { // NOSONAR
-        Collection<?> col = getValueAsCollection(map, key);
+    public static Set<?> getValueAsSet(final Map<?, ?> map, final Object key) { // NOSONAR
+        final Collection<?> col = getValueAsCollection(map, key);
         if (col instanceof Set) {
             return (Set<?>) col;
         }
@@ -215,9 +273,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static String getValueAsString(Map<?, ?> map, Object key,
-                                          String defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static String getValueAsString(final Map<?, ?> map, final Object key,
+                                          final String defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -235,9 +293,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static Boolean getValueAsBoolean(Map<?, ?> map, Object key,
-                                            Boolean defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static Boolean getValueAsBoolean(final Map<?, ?> map, final Object key,
+                                            final Boolean defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -262,9 +320,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static BigInteger getValueAsBigInteger(Map<?, ?> map, Object key,
-                                                  BigInteger defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static BigInteger getValueAsBigInteger(final Map<?, ?> map, final Object key,
+                                                  final BigInteger defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -289,9 +347,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static Long getValueAsLong(Map<?, ?> map, Object key,
-                                      Long defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static Long getValueAsLong(final Map<?, ?> map, final Object key,
+                                      final Long defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -316,9 +374,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static Integer getValueAsInteger(Map<?, ?> map, Object key,
-                                            Integer defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static Integer getValueAsInteger(final Map<?, ?> map, final Object key,
+                                            final Integer defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -343,9 +401,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static Byte getValueAsByte(Map<?, ?> map, Object key,
-                                      Byte defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static Byte getValueAsByte(final Map<?, ?> map, final Object key,
+                                      final Byte defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -354,6 +412,33 @@ public abstract class MapUtils {
         }
         try {
             return Byte.valueOf(value.toString());
+        } catch (Exception e) { // NOSONAR
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Get a value as short. If no value exists with the specified key, the
+     * default value will be returned. If the value cannot be cast to the return
+     * type, the default value will be returned, too.
+     *
+     * @param map          the map
+     * @param key          the key
+     * @param defaultValue a default value
+     * @return the value of the key
+     */
+    @SuppressWarnings("unused")
+    public static Short getValueAsShort(final Map<?, ?> map, final Object key,
+                                        final Short defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
+        if (value == null) {
+            return defaultValue;
+        }
+        if (value instanceof Short) {
+            return (Short) value;
+        }
+        try {
+            return Short.valueOf(value.toString());
         } catch (Exception e) { // NOSONAR
             return defaultValue;
         }
@@ -370,9 +455,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static BigDecimal getValueAsBigDecimal(Map<?, ?> map, Object key,
-                                                  BigDecimal defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static BigDecimal getValueAsBigDecimal(final Map<?, ?> map, final Object key,
+                                                  final BigDecimal defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -397,9 +482,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static Double getValueAsDouble(Map<?, ?> map, Object key,
-                                          Double defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static Double getValueAsDouble(final Map<?, ?> map, final Object key,
+                                          final Double defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -424,9 +509,9 @@ public abstract class MapUtils {
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
-    public static Float getValueAsFloat(Map<?, ?> map, Object key,
-                                        Float defaultValue) {
-        Object value = getFirstValue(map, key, defaultValue);
+    public static Float getValueAsFloat(final Map<?, ?> map, final Object key,
+                                        final Float defaultValue) {
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }
@@ -458,7 +543,7 @@ public abstract class MapUtils {
                                                        final Object key, final Class<T> enumType,
                                                        final T defaultValue) {
 
-        Object value = getFirstValue(map, key, defaultValue);
+        final Object value = getFirstValue(map, key, defaultValue);
         if (value == null) {
             return defaultValue;
         }

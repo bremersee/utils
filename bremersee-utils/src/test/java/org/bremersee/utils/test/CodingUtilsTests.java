@@ -32,17 +32,17 @@ public class CodingUtilsTests {
 
     @Test
     public void testMessageDigest() {
-        MessageDigest md = CodingUtils.getInstanceSilently("SHA");
+        MessageDigest md = CodingUtils.getMessageDigestSilently("SHA");
         TestCase.assertNotNull(md);
 
-        md = CodingUtils.getInstanceSilently("MD5", (Provider)null);
+        md = CodingUtils.getMessageDigestSilently("MD5", (Provider)null);
         TestCase.assertNotNull(md);
-        md = CodingUtils.getInstanceSilently("SHA", (Provider)null);
+        md = CodingUtils.getMessageDigestSilently("SHA", (Provider)null);
         TestCase.assertNotNull(md);
 
-        md = CodingUtils.getInstanceSilently("MD5", "SUN");
+        md = CodingUtils.getMessageDigestSilently("MD5", "SUN");
         TestCase.assertNotNull(md);
-        md = CodingUtils.getInstanceSilently("SHA", "SUN");
+        md = CodingUtils.getMessageDigestSilently("SHA", "SUN");
         TestCase.assertNotNull(md);
     }
     
@@ -51,7 +51,7 @@ public class CodingUtilsTests {
         
         System.out.println("Testing hash ...");
 
-        final MessageDigest md = CodingUtils.getInstanceSilently("MD5");
+        final MessageDigest md = CodingUtils.getMessageDigestSilently("MD5");
         final String s1 = "Hello world";
 
         byte[] result = CodingUtils.digestSilently(md, s1.getBytes());

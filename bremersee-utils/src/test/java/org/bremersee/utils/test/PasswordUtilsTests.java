@@ -59,4 +59,17 @@ public class PasswordUtilsTests {
         System.out.println("OK");
     }
 
+    @Test
+    public void testPasswordWithoutSymbols() {
+
+        System.out.println("Testing password without symbols ...");
+
+        String password = PasswordUtils.createRandomClearPassword(false);
+        double result = PasswordUtils.getPasswordQuality(password, null);
+        System.out.println("Result (Password = '" + password + "'): " + result);
+        TestCase.assertTrue(0.5 < result && result < 1.);
+
+        System.out.println("OK");
+    }
+
 }

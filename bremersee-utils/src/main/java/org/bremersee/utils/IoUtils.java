@@ -31,8 +31,11 @@ import java.io.Writer;
  */
 public abstract class IoUtils {
 
+    /**
+     * Never construct.
+     */
     private IoUtils() {
-        // utility class, never constructed
+        super();
     }
 
     /**
@@ -49,7 +52,8 @@ public abstract class IoUtils {
      *             if copying fails
      */
     @SuppressWarnings("SameParameterValue")
-    public static long copySilently(InputStream inputStream, OutputStream outputStream, boolean closeStreams) {
+    public static long copySilently(final InputStream inputStream, final OutputStream outputStream,
+                                    final boolean closeStreams) {
         return copySilently(inputStream, outputStream, closeStreams, null);
     }
 
@@ -68,7 +72,8 @@ public abstract class IoUtils {
      * @throws IORuntimeException
      *             if copying fails
      */
-    public static long copySilently(InputStream inputStream, OutputStream outputStream, boolean closeStreams, InputStreamListener listener) {
+    public static long copySilently(final InputStream inputStream, final OutputStream outputStream,
+                                    final boolean closeStreams, final InputStreamListener listener) {
         long totalLen = 0L;
         int len;
         byte[] buf = new byte[4096];
@@ -107,7 +112,7 @@ public abstract class IoUtils {
      *             if copying fails
      */
     @SuppressWarnings("SameParameterValue")
-    public static long copySilently(Reader reader, Writer writer, boolean closeReaderAndWriter) {
+    public static long copySilently(final Reader reader, final Writer writer, final boolean closeReaderAndWriter) {
         return copySilently(reader, writer, closeReaderAndWriter, null);
     }
 
@@ -126,7 +131,9 @@ public abstract class IoUtils {
      * @throws IORuntimeException
      *             if copying fails
      */
-    public static long copySilently(Reader reader, Writer writer, boolean closeReaderAndWriter, ReaderListener listener) {
+    public static long copySilently(final Reader reader, final Writer writer, final boolean closeReaderAndWriter,
+                                    final ReaderListener listener) {
+
         long totalLen = 0L;
         int len;
         char[] buf = new char[4096];
@@ -152,7 +159,7 @@ public abstract class IoUtils {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public static void closeSilently(InputStream inputStream) {
+    public static void closeSilently(final InputStream inputStream) {
         if (inputStream != null) {
             try {
                 inputStream.close();
@@ -163,7 +170,7 @@ public abstract class IoUtils {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public static void closeSilently(OutputStream outputStream) {
+    public static void closeSilently(final OutputStream outputStream) {
         if (outputStream != null) {
             try {
                 outputStream.close();
@@ -174,7 +181,7 @@ public abstract class IoUtils {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public static void closeSilently(Reader reader) {
+    public static void closeSilently(final Reader reader) {
         if (reader != null) {
             try {
                 reader.close();
@@ -185,7 +192,7 @@ public abstract class IoUtils {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public static void closeSilently(Writer writer) {
+    public static void closeSilently(final Writer writer) {
         if (writer != null) {
             try {
                 writer.close();

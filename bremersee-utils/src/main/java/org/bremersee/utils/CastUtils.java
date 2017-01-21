@@ -32,6 +32,9 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public abstract class CastUtils {
 
+    /**
+     * Never construct.
+     */
     private CastUtils() {
         super();
     }

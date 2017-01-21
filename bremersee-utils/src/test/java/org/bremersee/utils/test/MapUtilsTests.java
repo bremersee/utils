@@ -80,6 +80,8 @@ public class MapUtilsTests {
         map.put("booleanStr", _boolean.toString());
         map.put("enumStr", _enum.name());
 
+        map.put("floatArray", new float[] {1.2f, 1.3f});
+
         List<Object> list = new ArrayList<>();
         list.add(_string);
         list.add(_int);
@@ -118,6 +120,10 @@ public class MapUtilsTests {
         Collection<?> col = MapUtils.getValueAsCollection(map, "bigDecimal");
         TestCase.assertTrue(!col.isEmpty());
         TestCase.assertEquals(new ArrayList<>(col).get(0), _bigDecimal);
+
+        Collection<?> floatCol = MapUtils.getValueAsCollection(map, "floatArray");
+        TestCase.assertTrue(!floatCol.isEmpty());
+        TestCase.assertEquals(new ArrayList<>(floatCol).get(0), 1.2f);
 
         System.out.println("OK");
     }

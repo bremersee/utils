@@ -49,7 +49,8 @@ public abstract class MailUtils {
      * <a href="https://tools.ietf.org/html/rfc6531">RFC 6531</a> (characters
      * above ASCII-Codes 127) is not supported.
      */
-    public static final String BREMERSEE_EMAIL_REGEX = "[a-zA-Z0-9!#$&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?";
+    public static final String BREMERSEE_EMAIL_REGEX = "[a-zA-Z0-9!#$&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$&'*+/=" +
+            "?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?";
 
     /**
      * A set of characters that are allowed in the local part of an email

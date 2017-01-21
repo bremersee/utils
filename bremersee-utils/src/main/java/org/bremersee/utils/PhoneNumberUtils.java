@@ -16,8 +16,6 @@
 
 package org.bremersee.utils;
 
-import org.apache.commons.lang3.Validate;
-
 /**
  * *
  * <p>
@@ -28,8 +26,11 @@ import org.apache.commons.lang3.Validate;
  */
 public abstract class PhoneNumberUtils {
 
+    /**
+     * Never construct.
+     */
     private PhoneNumberUtils() {
-        // utility class, never constructed
+        super();
     }
 
     /**
@@ -47,14 +48,16 @@ public abstract class PhoneNumberUtils {
      * Create a new phone number from the specified one that only contains
      * numbers, '*', '#' and '+'.
      *
-     * @param phoneNumber           the original phone number
+     * @param phoneNumber           the original phone number (can be {@code null})
      * @param preferPlusInsteadOf00 if {@code true} a beginning with {@code 00} will be replaced with {@code +};
      *                              if {@code false} a beginning with {@code +} will be replaced with {@code 00}
-     * @return the cleaned phone number
+     * @return the cleaned phone number or {@code null} when the original number is {@code null}
      */
-    public static String cleanPhoneNumber(final String phoneNumber, final boolean preferPlusInsteadOf00) {
+    public static String cleanPhoneNumber(final String phoneNumber, final boolean preferPlusInsteadOf00) { // NOSONAR
 
-        Validate.notEmpty(phoneNumber, "Phone number must not be null or blank.");
+        if (phoneNumber == null) {
+            return null;
+        }
 
         String cleanedPhoneNumber = phoneNumber.trim();
 
