@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 /**
  * @author Christian Bremer
  */
-public class WebUtilsTest {
+public class WebUtilsTests {
 
     @Test
     public void testAddUrlParameter() {

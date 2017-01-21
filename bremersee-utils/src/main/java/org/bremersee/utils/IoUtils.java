@@ -45,9 +45,10 @@ public abstract class IoUtils {
      * @param closeStreams
      *            if {@code true} the streams will be closed otherwise they will stay open
      * @return the length of copied data
-     * @throws RuntimeException
+     * @throws IORuntimeException
      *             if copying fails
      */
+    @SuppressWarnings("SameParameterValue")
     public static long copySilently(InputStream inputStream, OutputStream outputStream, boolean closeStreams) {
         return copySilently(inputStream, outputStream, closeStreams, null);
     }
@@ -64,7 +65,7 @@ public abstract class IoUtils {
      * @param listener
      *            a listener (may be {@code null})
      * @return the length of copied data
-     * @throws RuntimeException
+     * @throws IORuntimeException
      *             if copying fails
      */
     public static long copySilently(InputStream inputStream, OutputStream outputStream, boolean closeStreams, InputStreamListener listener) {
@@ -82,19 +83,11 @@ public abstract class IoUtils {
             outputStream.flush();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IORuntimeException(e);
         } finally {
         	if (closeStreams) {
-                try {
-                    inputStream.close();
-                } catch (IOException ignored) {
-                    // ignored
-                }
-                try {
-                    outputStream.close();
-                } catch (IOException ignored) {
-                    // ignored
-                }
+        	    closeSilently(inputStream);
+        	    closeSilently(outputStream);
         	}
         }
         return totalLen;
@@ -110,9 +103,10 @@ public abstract class IoUtils {
      * @param closeReaderAndWriter
      *            if {@code true} the reader and writer will be closed otherwise they will stay open
      * @return the size of the characters
-     * @throws RuntimeException
+     * @throws IORuntimeException
      *             if copying fails
      */
+    @SuppressWarnings("SameParameterValue")
     public static long copySilently(Reader reader, Writer writer, boolean closeReaderAndWriter) {
         return copySilently(reader, writer, closeReaderAndWriter, null);
     }
@@ -129,7 +123,7 @@ public abstract class IoUtils {
      * @param listener
      *            a listener (may be {@code null})
      * @return the size of the characters
-     * @throws RuntimeException
+     * @throws IORuntimeException
      *             if copying fails
      */
     public static long copySilently(Reader reader, Writer writer, boolean closeReaderAndWriter, ReaderListener listener) {
@@ -147,22 +141,58 @@ public abstract class IoUtils {
             writer.flush();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IORuntimeException(e);
         } finally {
 			if (closeReaderAndWriter) {
-	            try {
-	                reader.close();
-	            } catch (IOException ignored) {
-	                // ignored
-	            }
-	            try {
-	                writer.close();
-	            } catch (IOException ignored) {
-	                // ignored
-	            }
+			    closeSilently(reader);
+			    closeSilently(writer);
 			}
 		}
         return totalLen;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public static void closeSilently(InputStream inputStream) {
+        if (inputStream != null) {
+            try {
+                inputStream.close();
+            } catch (IOException ignored) { // NOSONAR
+                // ignored
+            }
+        }
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public static void closeSilently(OutputStream outputStream) {
+        if (outputStream != null) {
+            try {
+                outputStream.close();
+            } catch (IOException ignored) { // NOSONAR
+                // ignored
+            }
+        }
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public static void closeSilently(Reader reader) {
+        if (reader != null) {
+            try {
+                reader.close();
+            } catch (IOException ignored) { // NOSONAR
+                // ignored
+            }
+        }
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public static void closeSilently(Writer writer) {
+        if (writer != null) {
+            try {
+                writer.close();
+            } catch (IOException ignored) { // NOSONAR
+                // ignored
+            }
+        }
     }
 
 }

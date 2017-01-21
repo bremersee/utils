@@ -25,45 +25,42 @@ import java.util.Locale;
  * <p>
  * Some methods to work with a web stuff.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
 public abstract class WebUtils {
 
+    /**
+     * Never construct.
+     */
     private WebUtils() {
-        // utility class, never constructed
+        super();
     }
 
     /**
      * Add a URL parameter to the specified URL with UTF-8 encoding.
-     * 
-     * @param url
-     *            the original URL
-     * @param name
-     *            the name of the parameter
-     * @param value
-     *            the value of the parameter
+     *
+     * @param url   the original URL
+     * @param name  the name of the parameter
+     * @param value the value of the parameter
      * @return the URL with the appended parameter
      */
-    public static String addUrlParameter(String url, String name, String value) {
+    public static String addUrlParameter(final String url, final String name, final String value) {
         return addUrlParameter(url, name, value, StandardCharsets.UTF_8);
     }
 
     /**
      * Add a URL parameter to the specified URL with the specified encoding
      * (charset).
-     * 
-     * @param url
-     *            the original URL
-     * @param name
-     *            the name of the parameter
-     * @param value
-     *            the value of the parameter
-     * @param charset
-     *            the encoding (charset)
+     *
+     * @param url     the original URL
+     * @param name    the name of the parameter
+     * @param value   the value of the parameter
+     * @param charset the encoding (charset)
      * @return the URL with the appended parameter
      */
-    public static String addUrlParameter(String url, String name, String value, Charset charset) {
+    @SuppressWarnings("WeakerAccess")
+    public static String addUrlParameter(final String url, final String name, final String value, final Charset charset) {
 
         StringBuilder sb = new StringBuilder(url);
         try {
@@ -90,17 +87,15 @@ public abstract class WebUtils {
     /**
      * Get the language string of a jQuery Datepicker for the specified
      * {@link Locale}.
-     * 
-     * @param inLocale
-     *            the locale
+     *
+     * @param inLocale the locale
      * @return the jQuery Datepicker language string
      */
-    public static String getDatepickerLocale(Locale inLocale) {
+    @SuppressWarnings("unused")
+    public static String getDatepickerLocale(final Locale inLocale) { // NOSONAR
 
-        if (inLocale == null) {
-            inLocale = Locale.getDefault();
-        }
-        String id = inLocale.toString().replace('_', '-');
+        final Locale locale = inLocale == null ? Locale.getDefault() : inLocale;
+        final String id = locale.toString().replace('_', '-');
         if (id.startsWith("ar-DZ")) {
             return "ar-DZ";
         }
@@ -128,7 +123,7 @@ public abstract class WebUtils {
         if (id.startsWith("en-AU")) {
             return "en-AU";
         }
-        if (id.startsWith("en-GB")) {
+        if (id.startsWith("en-GB")) { // NOSONAR
             return "en-GB";
         }
         if (id.startsWith("en-NZ")) {
@@ -242,7 +237,7 @@ public abstract class WebUtils {
         if (id.startsWith("vi")) {
             return "vi";
         }
-        if (id.startsWith("zh-CN")) {
+        if (id.startsWith("zh-CN")) { // NOSONAR
             return "zh-CN";
         }
         if (id.startsWith("zh-HK")) {

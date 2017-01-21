@@ -28,24 +28,24 @@ import junit.framework.TestCase;
  * @author Christian Bremer
  */
 public class MailUtilsTests {
-    
+
     private Pattern emailPattern;
-    
+
     private Pattern bremerseeEmailPattern;
-    
+
     @Before
     public void createPatterns() throws Exception {
         emailPattern = Pattern.compile(MailUtils.EMAIL_REGEX);
         bremerseeEmailPattern = Pattern.compile(MailUtils.BREMERSEE_EMAIL_REGEX);
     }
-    
+
     @Test
     public void testEmailPattern() throws Exception {
         System.out.println("Testing email pattern ...");
         TestCase.assertEquals(true, emailPattern.matcher("andré.römer@äther.de").matches());
         System.out.println("OK");
     }
-    
+
     @Test
     public void testBremerseeEmailPattern() throws Exception {
         System.out.println("Testing bremersee email pattern ...");

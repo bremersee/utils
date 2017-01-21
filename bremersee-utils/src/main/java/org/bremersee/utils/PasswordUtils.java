@@ -16,9 +16,13 @@
 
 package org.bremersee.utils;
 
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
+
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -39,7 +43,9 @@ public abstract class PasswordUtils {
      * {@code ~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/})</li>
      * </ul>
      */
-    public static final String[] PARTIAL_REGEX_CHECKS = { ".*[a-z]+.*", // lower
+    @SuppressWarnings("WeakerAccess")
+    public static final String[] PARTIAL_REGEX_CHECKS = { // NOSONAR
+            ".*[a-z]+.*", // lower
             ".*[A-Z]+.*", // upper
             ".*[\\d]+.*", // digits
             ".*[~!@#$%^&*_\\-+=`|\\\\(){}\\[\\]:;\"'<>,.?/]+.*" // symbols
@@ -53,7 +59,7 @@ public abstract class PasswordUtils {
     /**
      * Numbers
      */
-    private static final String NUMBERS = "0123456789";
+    private static final String NUMBERS = "123456789"; // WITHOUT '0' because 'O' looks like it.
 
     /**
      * Upper characters
@@ -70,13 +76,14 @@ public abstract class PasswordUtils {
      */
     private static final char[] PASSWORD_CHARS;
 
-    /**
-     * Build upper chars, lower chars and all password characters.
-     */
+    private static final int PASSWORD_CHARS_LENGTH_WITHOUT_SYMBOLS;
+
+    private static final NumberFormat QUALITY_RESULT_NUMBER_FORMATTER = NumberFormat.getNumberInstance(Locale.US);
+
     static {
         StringBuilder sb = new StringBuilder();
-        char A = 'A';
-        char Z = 'Z';
+        char A = 'A'; // NOSONAR
+        char Z = 'Z'; // NOSONAR
         for (int i = (int) A; i <= (int) Z; i++) {
             sb.append((char) i);
         }
@@ -90,65 +97,107 @@ public abstract class PasswordUtils {
         LOWER_CHARS = sb.toString().substring(UPPER_CHARS.length());
 
         sb.append(NUMBERS);
+        PASSWORD_CHARS_LENGTH_WITHOUT_SYMBOLS = sb.length();
         sb.append(SYMBOLS);
 
         PASSWORD_CHARS = new char[sb.length()];
         sb.getChars(0, sb.length(), PASSWORD_CHARS, 0);
-    }
 
-    private PasswordUtils() {
-        // utility class, never constructed
+        QUALITY_RESULT_NUMBER_FORMATTER.setGroupingUsed(false);
+        QUALITY_RESULT_NUMBER_FORMATTER.setMaximumFractionDigits(2);
+        QUALITY_RESULT_NUMBER_FORMATTER.setMinimumIntegerDigits(1);
     }
 
     /**
-     * Create a new random password.
+     * Never construct.
+     */
+    private PasswordUtils() {
+        super();
+    }
+
+    /**
+     * Create a new random password (with symbols and a variable length greater than 14).
      * 
      * @return a new random password
      */
     public static String createRandomClearPassword() {
-        int length = 14;
-        int varLength = Double.valueOf(Math.floor(Math.random() * 15)).intValue();
-        return createRandomClearPassword(length + varLength);
+        return createRandomClearPassword(true);
     }
 
     /**
-     * Create a new random password with the specified length.
+     * Create a new random password (with or without symbols and a variable length greater than 14).
+     *
+     * @param withSymbols with or without symbols?
+     * @return a new random password
+     */
+    @SuppressWarnings({"WeakerAccess", "SameParameterValue"})
+    public static String createRandomClearPassword(final boolean withSymbols) {
+        return createRandomClearPassword(14, true, withSymbols);
+    }
+
+    /**
+     * Create a new random password with symbols and the specified length.
      * 
      * @param length
      *            the length of the password
      * @return a new random password
      */
-    public static String createRandomClearPassword(int length) {
+    @SuppressWarnings("unused")
+    public static String createRandomClearPassword(final int length) {
+        return createRandomClearPassword(length, false, true);
+    }
+
+    /**
+     * Creates a new random password.
+     * @param length the minimum length of the password
+     * @param withVariableLength should the length be variable?
+     * @param withSymbols should the password contains symbols?
+     * @return the new random password
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String createRandomClearPassword(final int length, // NOSONAR
+                                                   final boolean withVariableLength,
+                                                   final boolean withSymbols) {
+
+        final Random random = new Random();
+        final int len;
         if (length < 0) {
-            length = 0;
+            len = 0;
+        } else {
+            if (withVariableLength) {
+                final int varLength = random.nextInt (length + 1);
+                len = length + varLength;
+            } else {
+                len = length;
+            }
         }
-        char[] chars = new char[length];
-        for (int i = 0; i < length; i++) {
-            chars[i] = findChar();
+        char[] chars = new char[len];
+        for (int i = 0; i < len; i++) {
+            chars[i] = findChar(withSymbols, random);
         }
-        if (length > 0 && !containsLowerCase(chars)) {
+        if (len > 0 && !containsLowerCase(chars)) {
             char c = 'l';
             while (c == 'l') {
-                int n = Double.valueOf(Math.floor(Math.random() * LOWER_CHARS.length())).intValue();
+                int n = random.nextInt(LOWER_CHARS.length());
                 c = LOWER_CHARS.charAt(n);
             }
             chars[0] = c;
         }
-        if (length > 1 && !containsUpperCase(chars)) {
+        if (len > 1 && !containsUpperCase(chars)) {
             char c = 'I';
             while (c == 'I') {
-                int n = Double.valueOf(Math.floor(Math.random() * UPPER_CHARS.length())).intValue();
+                int n = random.nextInt(UPPER_CHARS.length());
                 c = UPPER_CHARS.charAt(n);
             }
             chars[1] = c;
         }
-        if (length > 2 && !containsNumber(chars)) {
-            int n = Double.valueOf(Math.floor(Math.random() * NUMBERS.length())).intValue();
+        if (len > 2 && !containsNumber(chars)) {
+            int n = random.nextInt(NUMBERS.length());
             char c = NUMBERS.charAt(n);
             chars[2] = c;
         }
-        if (length > 3 && !containsSymbol(chars)) {
-            int n = Double.valueOf(Math.floor(Math.random() * SYMBOLS.length())).intValue();
+        if (len > 3 && !containsSymbol(chars)) {
+            int n = random.nextInt(SYMBOLS.length());
             char c = SYMBOLS.charAt(n);
             chars[3] = c;
         }
@@ -164,27 +213,30 @@ public abstract class PasswordUtils {
      *            the minimum length of the password (optional)
      * @return a value between 0 (bad quality) and 1 (very good quality
      */
+    @SuppressWarnings("SameParameterValue")
     public static double getPasswordQuality(String clearPassword, Integer minLength) {
         if (StringUtils.isBlank(clearPassword) || (minLength != null && clearPassword.length() < minLength)) {
             return 0.;
         }
         double value = 1. / PARTIAL_REGEX_CHECKS.length;
         double result = 0.;
-        for (int i = 0; i < PARTIAL_REGEX_CHECKS.length; i++) {
-            if (Pattern.matches(PARTIAL_REGEX_CHECKS[i], clearPassword)) {
+        for (String PARTIAL_REGEX_CHECK : PARTIAL_REGEX_CHECKS) {
+            if (Pattern.matches(PARTIAL_REGEX_CHECK, clearPassword)) {
                 result = result + value;
             }
         }
-        return Double.valueOf(result).floatValue();
+        return new BigDecimal(QUALITY_RESULT_NUMBER_FORMATTER.format(result)).doubleValue();
     }
 
-    private static char findChar() {
-        int n = Double.valueOf(Math.floor(Math.random() * PASSWORD_CHARS.length)).intValue();
-        char c = PASSWORD_CHARS[n];
-        if (c != 'l' && c != 'I') {
+    private static char findChar(final boolean withSymbols, final Random random) {
+        final Random ran = random == null ? new Random() : random;
+        final int len = withSymbols ? PASSWORD_CHARS.length : PASSWORD_CHARS_LENGTH_WITHOUT_SYMBOLS;
+        final int n = ran.nextInt(len);
+        final char c = PASSWORD_CHARS[n];
+        if (c != 'l' && c != 'I' && c != 'O') {
             return c;
         }
-        return findChar();
+        return findChar(withSymbols, ran);
     }
 
     private static boolean containsLowerCase(char[] cs) {

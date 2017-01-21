@@ -37,11 +37,18 @@ public class IoUtilsTests {
         
         System.out.println("Testing copying bytes ...");
         final byte[] bytes = CodingUtils.toBytesSilently("Hello world", "UTF-8");
-        final ByteArrayInputStream in = new ByteArrayInputStream(bytes);
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final long len = IoUtils.copySilently(in, out, true);
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        long len = IoUtils.copySilently(in, out, true);
         Assert.assertArrayEquals(bytes, out.toByteArray());
         Assert.assertEquals(len, Integer.valueOf(bytes.length).longValue());
+
+        ByteArrayInputStreamListener listener = new ByteArrayInputStreamListener();
+        in = new ByteArrayInputStream(bytes);
+        out = new ByteArrayOutputStream();
+        IoUtils.copySilently(in, out, true, listener);
+        Assert.assertArrayEquals(bytes, listener.getBytes());
+
         System.out.println("OK");
     }
     
@@ -50,7 +57,7 @@ public class IoUtilsTests {
         
         System.out.println("Testing copying characters ...");
         final String s1 = "Hello world";
-        final StringWriter writer = new StringWriter();
+        StringWriter writer = new StringWriter();
         final StringBuilder sb = new StringBuilder();
         final long len = IoUtils.copySilently(new StringReader(s1), writer, true, new ReaderListener() {
             
@@ -62,6 +69,11 @@ public class IoUtilsTests {
         Assert.assertEquals(s1, writer.toString());
         Assert.assertEquals(s1, sb.toString());
         Assert.assertEquals(len, Integer.valueOf(s1.length()).longValue());
+
+        writer = new StringWriter();
+        IoUtils.copySilently(new StringReader(s1), writer, true);
+        Assert.assertEquals(s1, writer.toString());
+
         System.out.println("OK");
     }
     

@@ -20,21 +20,19 @@ package org.bremersee.utils;
  * <p>
  * Intercepter for reading a data.
  * </p>
- * 
+ *
  * @author Christian
  */
 public interface InputStreamListener {
 
     /**
      * This method is called by reading data.
-     * 
-     * @param buffer
-     *            the data buffer
-     * @param offset
-     *            the start offset in the data buffer
-     * @param len
-     *            the number of bytes in the data buffer
+     *
+     * @param buffer the data buffer
+     * @param offset the start offset in the data buffer
+     * @param len    the number of bytes in the data buffer
      */
+    @SuppressWarnings("SameParameterValue")
     void onReadBytes(byte[] buffer, int offset, int len);
 
 }

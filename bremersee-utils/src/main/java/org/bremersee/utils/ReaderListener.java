@@ -36,5 +36,6 @@ public interface ReaderListener {
      * @param len
      *            the number of chars in the char buffer
      */
+    @SuppressWarnings("SameParameterValue")
     void onReadChars(char[] buffer, int offset, int len);
 }

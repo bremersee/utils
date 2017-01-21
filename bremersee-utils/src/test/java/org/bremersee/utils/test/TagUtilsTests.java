@@ -16,6 +16,8 @@
 
 package org.bremersee.utils.test;
 
+import junit.framework.TestCase;
+import org.bremersee.utils.CaseFormat;
 import org.bremersee.utils.TagUtils;
 import org.junit.Test;
 
@@ -27,14 +29,20 @@ public class TagUtilsTests {
     @Test
     public void testTags() {
         System.out.println("Testing creation of tags ...");
-        String freeText = ""
+        final String freeText = ""
                 + "Durch so viel Formen geschritten,\n"
-                + "durch Ich und Wir und Du,\n"
+                + "durch Ich+und+Wir+und+Du,\n"
                 + "doch alles blieb erlitten\n"
                 + "durch die ewige Frage: wozu?";
-        
-        String tagText = TagUtils.buildTagString(freeText, 2);
+        final String resultText = ""
+                + "durch so viel formen geschritten "
+                + "durch ich+und+wir+und+du "
+                + "doch alles blieb erlitten "
+                + "durch die ewige frage wozu";
+        String tagText = TagUtils.buildTagString(freeText, 2, 255,
+                CaseFormat.TO_LOWER_CASE);
         System.out.println(tagText);
+        TestCase.assertEquals(resultText, tagText);
         System.out.println("OK");
     }
     

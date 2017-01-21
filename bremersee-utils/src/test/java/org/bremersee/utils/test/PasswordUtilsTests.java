@@ -32,22 +32,28 @@ public class PasswordUtilsTests {
         System.out.println("Testing password quality ...");
         
         double result = PasswordUtils.getPasswordQuality("", null);
+        System.out.println("Result (Password = ''): " + result);
         TestCase.assertTrue(0. == result);
         
         result = PasswordUtils.getPasswordQuality("abc", null);
+        System.out.println("Result (Password = 'abc'): " + result);
         TestCase.assertTrue(0. < result && result < 0.5);
         
         result = PasswordUtils.getPasswordQuality("abcABC", null);
+        System.out.println("Result (Password = 'abcABC'): " + result);
         TestCase.assertTrue(0.25 < result && result < 0.75);
 
         result = PasswordUtils.getPasswordQuality("abcABC09", null);
+        System.out.println("Result (Password = 'abcABC09'): " + result);
         TestCase.assertTrue(0.5 < result && result < 1.);
 
         result = PasswordUtils.getPasswordQuality("!$_abcABC09", null);
+        System.out.println("Result (Password = '!$_abcABC09'): " + result);
         TestCase.assertTrue(0.75 < result && result <= 1.);
 
         String s1 = PasswordUtils.createRandomClearPassword();
         result = PasswordUtils.getPasswordQuality(s1, null);
+        System.out.println("Result (Password = '" + s1 + "'): " + result);
         TestCase.assertTrue(0.75 < result && result <= 1.);
         
         System.out.println("OK");

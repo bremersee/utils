@@ -29,10 +29,17 @@ public class PhoneNumberUtilsTests {
     @Test
     public void testPhoneNumberCleaner() {
         System.out.println("Testing phone number cleaner ...");
+
         String s1 = "+49 171 123 456 789";
         String s2 = PhoneNumberUtils.cleanPhoneNumber(s1);
         System.out.println(s1 + "  -->  " + s2);
         TestCase.assertEquals("0049171123456789", s2);
+
+        s1 = "0049 171 123 456 789";
+        s2 = PhoneNumberUtils.cleanPhoneNumber(s1, true);
+        System.out.println(s1 + "  -->  " + s2);
+        TestCase.assertEquals("+49171123456789", s2);
+
         System.out.println("OK");
     }
 

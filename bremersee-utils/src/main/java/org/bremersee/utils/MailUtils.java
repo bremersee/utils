@@ -30,14 +30,10 @@ import org.apache.commons.lang3.Validate;
  * Be aware: Other mail domains / server may treat email addresses in a
  * different way.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
 public abstract class MailUtils {
-
-    private MailUtils() {
-        // utility class, never constructed
-    }
 
     /**
      * Simple email address regex that fits
@@ -67,18 +63,15 @@ public abstract class MailUtils {
      */
     private static final Map<Character, String> REPLACE_CHARS_IN_MAIL_LOCAL_PART_MAP;
 
-    /**
-     * Build the map of illegal characters.
-     */
     static {
-        Set<Character> tmpCharSet = new HashSet<Character>();
+        Set<Character> tmpCharSet = new HashSet<>();
         char n0 = '0';
         char n9 = '9';
-        char A = 'A';
-        char Z = 'Z';
+        char A = 'A'; // NOSONAR
+        char Z = 'Z'; // NOSONAR
         char a = 'a';
         char z = 'z';
-        char[] x = { '#', '$', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~', '.' };
+        char[] x = {'#', '$', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~', '.'};
 
         StringBuilder sb = new StringBuilder();
         for (int i = (int) n0; i <= (int) n9; i++) {
@@ -96,7 +89,7 @@ public abstract class MailUtils {
         }
         LEGAL_CHARS_IN_MAIL_LOCAL_PART = Collections.unmodifiableSet(tmpCharSet);
 
-        Map<Character, String> tmpReplaceCharsMap = new HashMap<Character, String>();
+        Map<Character, String> tmpReplaceCharsMap = new HashMap<>();
         tmpReplaceCharsMap.put('(', "{");
         tmpReplaceCharsMap.put(')', "}");
         tmpReplaceCharsMap.put('[', "{");
@@ -153,22 +146,28 @@ public abstract class MailUtils {
     }
 
     /**
+     * Never construct.
+     */
+    private MailUtils() {
+        super();
+    }
+
+    /**
      * Build an email address from the local part and the mail domain name.<br/>
      * Illegal characters in the local part will be replaced by legal ones.<br/>
      * The mail domain name will not be validated.<br/>
      * So this method can be used to generate mail addresses from the name of a
      * group, for example.
-     * 
-     * @param localPart
-     *            the local part of the email address
-     * @param mailDomain
-     *            the mail domain name
+     *
+     * @param localPart  the local part of the email address
+     * @param mailDomain the mail domain name
      * @return a legal email address (the local part may has changed)
      */
+    @SuppressWarnings("SameParameterValue")
     public static String buildMailAddress(String localPart, String mailDomain) {
 
-    	Validate.notBlank(localPart, "localPart must not be null or blank");
-    	Validate.notBlank(mailDomain, "mailDomain must not be null or blank");
+        Validate.notBlank(localPart, "localPart must not be null or blank");
+        Validate.notBlank(mailDomain, "mailDomain must not be null or blank");
 
         StringBuilder localPartBuilder = new StringBuilder();
         for (int i = 0; i < localPart.length(); i++) {

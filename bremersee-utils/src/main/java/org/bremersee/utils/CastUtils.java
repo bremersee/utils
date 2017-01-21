@@ -26,14 +26,29 @@ import java.util.Set;
  * <p>
  * This utility class has methods to cast collections.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
 @SuppressWarnings("unchecked")
 public abstract class CastUtils {
 
     private CastUtils() {
-        // utility class, never constructed
+        super();
+    }
+
+    /**
+     * Casts an iterator.
+     */
+    public static <T> Iterator<T> cast(Iterator<?> iter) {
+        return (Iterator<T>) iter;
+    }
+
+    /**
+     * Casts an iterator.
+     */
+    @SuppressWarnings("unused")
+    public static <T> Iterator<T> cast(Iterator<?> iter, Class<T> t) {
+        return (Iterator<T>) iter;
     }
 
     /**
@@ -46,6 +61,7 @@ public abstract class CastUtils {
     /**
      * Casts a collection.
      */
+    @SuppressWarnings("unused")
     public static <T> Collection<T> cast(Collection<?> col, Class<T> t) {
         return (Collection<T>) col;
     }
@@ -60,22 +76,9 @@ public abstract class CastUtils {
     /**
      * Casts a list.
      */
+    @SuppressWarnings("unused")
     public static <T> List<T> cast(List<?> list, Class<T> t) {
         return (List<T>) list;
-    }
-
-    /**
-     * Casts an iterator.
-     */
-    public static <T> Iterator<T> cast(Iterator<?> iter) {
-        return (Iterator<T>) iter;
-    }
-
-    /**
-     * Casts an iterator.
-     */
-    public static <T> Iterator<T> cast(Iterator<?> iter, Class<T> t) {
-        return (Iterator<T>) iter;
     }
 
     /**
@@ -88,6 +91,7 @@ public abstract class CastUtils {
     /**
      * Casts a set.
      */
+    @SuppressWarnings("unused")
     public static <T> Set<T> cast(Set<?> set, Class<T> t) {
         return (Set<T>) set;
     }
@@ -102,6 +106,7 @@ public abstract class CastUtils {
     /**
      * Casts a map.
      */
+    @SuppressWarnings("unused")
     public static <T, U> Map<T, U> cast(Map<?, ?> map, Class<T> t, Class<U> u) {
         return (Map<T, U>) map;
     }
@@ -116,6 +121,7 @@ public abstract class CastUtils {
     /**
      * Casts a map entry.
      */
+    @SuppressWarnings("unused")
     public static <T, U> Map.Entry<T, U> cast(Map.Entry<?, ?> mapEntry, Class<T> t, Class<U> u) {
         return (Map.Entry<T, U>) mapEntry;
     }
