@@ -11,7 +11,7 @@ Bremersee Utils
 *---------------------+--------+-----------------------------------------+
 | IoUtils             | 1.0.2  | Input-output operations                 |
 *---------------------+--------+-----------------------------------------+
-| LocaleUtils         | 1.0.3  | Locale operations and validations       |
+| LocaleUtils         | 1.0.4  | Locale operations and validations       |
 *---------------------+--------+-----------------------------------------+
 | MailUtils           | 1.0.2  | Email address utilities                 |
 *---------------------+--------+-----------------------------------------+
@@ -25,7 +25,7 @@ Bremersee Utils
 *---------------------+--------+-----------------------------------------+
 | TagUtils            | 1.0.2  | Tagging methods                         |
 *---------------------+--------+-----------------------------------------+
-| TimeZoneUtils       | 1.0.3  | Time zone operations and validations    |
+| TimeZoneUtils       | 1.0.4  | Time zone operations and validations    |
 *---------------------+--------+-----------------------------------------+
 | WebUtils            | 1.0.2  | Web stuff methods                       |
 *---------------------+--------+-----------------------------------------+
