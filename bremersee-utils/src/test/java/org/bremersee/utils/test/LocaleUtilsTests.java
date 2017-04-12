@@ -40,9 +40,9 @@ public class LocaleUtilsTests {
         System.out.println("- Language code is valid, default language code is not present, result = " + lc);
         TestCase.assertEquals("ja", lc);
 
-        lc = LocaleUtils.validateLanguageCode("invalid", "invalid");
-        System.out.println("- Both are invalid, language code and default language code, result = " + lc);
-        TestCase.assertEquals(Locale.getDefault().getLanguage(), lc);
+        lc = LocaleUtils.validateLanguageCode("invalid", null);
+        System.out.println("- Language code is invalid, default language code is null, result = " + lc);
+        TestCase.assertNull(lc);
 
         lc = LocaleUtils.validateLanguageCode("invalid", "en");
         System.out.println("- Language code is invalid, default language code is valid, result = " + lc);
@@ -68,9 +68,9 @@ public class LocaleUtilsTests {
         System.out.println("- Country code isvalid, default country code is not present, result = " + cc);
         TestCase.assertEquals("US", cc);
 
-        cc = LocaleUtils.validateCountryCode("invalid", "invalid");
-        System.out.println("- Both are invalid, country code and default country code, result = " + cc);
-        TestCase.assertEquals(Locale.getDefault().getCountry(), cc);
+        cc = LocaleUtils.validateCountryCode("invalid", null);
+        System.out.println("- Country code is invalid, default country code is null, result = " + cc);
+        TestCase.assertNull(cc);
 
         cc = LocaleUtils.validateCountryCode("invalid", "GB");
         System.out.println("- Country code is invalid, default country code is valid, result = " + cc);
@@ -92,6 +92,10 @@ public class LocaleUtilsTests {
 
         Locale locale = LocaleUtils.fromString("fr_FR", true);
         System.out.println("fr_FR -> " + locale.toString());
+        TestCase.assertEquals(fr, locale);
+
+        locale = LocaleUtils.fromString(locale.toLanguageTag(), true);
+        System.out.println(locale.toLanguageTag() + " -> " + locale.toString());
         TestCase.assertEquals(fr, locale);
 
         locale = LocaleUtils.fromString("fra_FRA", true);

@@ -93,18 +93,16 @@ public abstract class LocaleUtils {
      * @return the validated two letter language code
      */
     public static String validateLanguageCode(final String languageCode) {
-        return validateLanguageCode(languageCode, null);
+        return validateLanguageCode(languageCode, Locale.getDefault().getLanguage());
     }
 
     /**
      * Validates the specified language code. The language code must be one of {@link Locale#getAvailableLocales()} as
-     * two letter or iso3 letter code. If the language code is not valid, the default language code will be validated.
-     * If even the default language code is not valid, the language code of the system will be returned. So even if one
-     * of the language codes is {@code null}, a valid language code will be returned.
+     * two letter or iso3 letter code. If the language code is not valid, the default language code will be returned.
      *
      * @param languageCode        the language code to validate (can be {@code null})
      * @param defaultLanguageCode the default language code (can be {@code null})
-     * @return the validated two letter language code
+     * @return the validated two letter language code or default language code, which can bw {@code null}
      */
     @SuppressWarnings("SameParameterValue")
     public static String validateLanguageCode(final String languageCode, String defaultLanguageCode) {
@@ -118,17 +116,14 @@ public abstract class LocaleUtils {
                 return langFromIso3;
             }
         }
-        if (defaultLanguageCode == null) {
-            return StringUtils.isBlank(Locale.getDefault().getLanguage()) ? "de" : Locale.getDefault().getLanguage();
-        }
-        return validateLanguageCode(defaultLanguageCode, null);
+        return defaultLanguageCode;
     }
 
     private static String extractLanguageCode(final String languageCode) {
         if (languageCode == null || languageCode.length() < 2) {
             return null;
         }
-        final int index = languageCode.indexOf('_');
+        final int index = languageCode.replace("-", "_").indexOf('_');
         final String value;
         if (index >= 2) {
             value = languageCode.substring(0, index);
@@ -152,22 +147,20 @@ public abstract class LocaleUtils {
      * @return the validated two letter country code
      */
     public static String validateCountryCode(final String countryCode) {
-        return validateCountryCode(countryCode, null);
+        return validateCountryCode(countryCode, Locale.getDefault().getCountry());
     }
 
     /**
      * Validates the specified country code. The country code must be one of {@link Locale#getAvailableLocales()} as
-     * two letter or iso3 letter code. If the country code is not valid, the default country code will be validated.
-     * If even the default country code is not valid, the country code of the system will be returned. So even if one
-     * of the country codes is {@code null}, a valid country code will be returned.
+     * two letter or iso3 letter code. If the country code is not valid, the default country code will be returned.
      *
      * @param countryCode        the country code to validate (can be {@code null})
      * @param defaultCountryCode the default country code (can be {@code null})
-     * @return the validated two letter country code
+     * @return the validated two letter country code or the default country code, which can be {@code null}
      */
     @SuppressWarnings("SameParameterValue")
     public static String validateCountryCode(final String countryCode, final String defaultCountryCode) {
-        final String cc = extractCountryCode(countryCode);
+        final String cc = extractCountryCode(countryCode, false);
         if (cc != null && (cc.length() == 2 || cc.length() == 3)) {
             if (COUNTRY_CODES.contains(cc)) {
                 return cc;
@@ -177,19 +170,18 @@ public abstract class LocaleUtils {
                 return country;
             }
         }
-        if (StringUtils.isBlank(defaultCountryCode)) {
-            return StringUtils.isBlank(Locale.getDefault().getCountry()) ? "DE" : Locale.getDefault().getCountry();
-        }
-        return validateCountryCode(defaultCountryCode, null);
+        return defaultCountryCode;
     }
 
-    private static String extractCountryCode(final String countryCode) {
+    private static String extractCountryCode(final String countryCode, boolean underscoreRequired) {
         if (countryCode == null) {
             return null;
         }
-        final String[] values = countryCode.split("_");
+        final String[] values = countryCode.replace("-", "_").split("_");
         if (values.length >= 2) {
-            return extractCountryCode(values[1]);
+            return extractCountryCode(values[1], false);
+        } else if (underscoreRequired) {
+            return null;
         }
         final String value = values[0];
         if (value.length() < 2) {
@@ -203,6 +195,21 @@ public abstract class LocaleUtils {
         }
     }
 
+    private static String extractVariant(String localeAsString) {
+        if (localeAsString == null) {
+            return null;
+        }
+        final String[] parts = localeAsString.replace("-", "_").split("_");
+        if (parts.length >= 3) {
+            String var = parts[2].trim();
+            if (var.length() <= 3) {
+                return var;
+            }
+            return var.substring(0, 3);
+        }
+        return null;
+    }
+
     /**
      * <p>Converts a String to a Locale.</p>
      * <p>
@@ -210,18 +217,19 @@ public abstract class LocaleUtils {
      * locale object from it.</p>
      * <p>
      * <pre>
-     *   LocaleUtils.toLocale(null)         = new Locale(Locale.getDefault().getLanguage())
-     *   LocaleUtils.toLocale("")           = new Locale(Locale.getDefault().getLanguage())
-     *   LocaleUtils.toLocale("en")         = new Locale("en")
-     *   LocaleUtils.toLocale("en_GB")      = new Locale("en", "GB")
-     *   LocaleUtils.toLocale("en_GB_xxx")  = new Locale("en", "GB", "xxx")
+     *   LocaleUtils.fromString(null)         = new Locale(Locale.getDefault().getLanguage())
+     *   LocaleUtils.fromString("")           = new Locale(Locale.getDefault().getLanguage())
+     *   LocaleUtils.fromString("en")         = new Locale("en")
+     *   LocaleUtils.fromString("en_GB")      = new Locale("en", "GB")
+     *   LocaleUtils.fromString("en-GB")      = new Locale("en", "GB")
+     *   LocaleUtils.fromString("en_GB_xxx")  = new Locale("en", "GB", "xxx")
      * </pre>
      * <p>
      * This method validates the input not strictly:
      * <pre>
      *   The language code can be lowercase, uppercase or an ISO3 language code.
      *   The country code must be lowercase, uppercase or an ISO3 country code.
-     *   The separator must be an underscore.
+     *   The separator can be an underscore or a hyphen.
      *   The length doesn't matter.
      * </pre>
      *
@@ -234,22 +242,16 @@ public abstract class LocaleUtils {
             return Locale.getDefault();
         }
         final String languageCode = validateLanguageCode(localeAsString);
-        final String[] values = localeAsString.split("_");
-        String countryCode = values.length >= 2 ? values[1] : null;
-        if (countryRequired) {
-            countryCode = validateCountryCode(countryCode);
-        } else {
-            if (countryCode != null && !COUNTRY_CODES.contains(countryCode.toUpperCase())) {
-                countryCode = ISO3_COUNTRY_CODES.get(countryCode.toUpperCase());
+        final String countryCode = extractCountryCode(localeAsString, true);
+        if (StringUtils.isNotBlank(countryCode) || countryRequired) {
+            final String variant = extractVariant(localeAsString);
+            if (variant == null) {
+                return new Locale(languageCode, validateCountryCode(countryCode));
+            } else {
+                return new Locale(languageCode, validateCountryCode(countryCode), variant);
             }
         }
-        if (countryCode == null) {
-            return new Locale(languageCode);
-        }
-        if (values.length >= 3 && values[2].length() > 0) {
-            return new Locale(languageCode, countryCode, values[2]);
-        }
-        return new Locale(languageCode, countryCode);
+        return new Locale(languageCode);
     }
 
 }
