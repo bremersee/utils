@@ -26,7 +26,7 @@ import org.apache.commons.lang3.Validate;
 
 /**
  * <p>
- * Methods to work with email addresses (from {@code bremersee.org}).<br/>
+ * Methods to work with email addresses (from {@code bremersee.org}).<br>
  * Be aware: Other mail domains / server may treat email addresses in a
  * different way.
  * </p>
@@ -45,7 +45,7 @@ public abstract class MailUtils {
     /**
      * Email address regex for {@code bremersee.org} (
      * <a href="https://tools.ietf.org/html/rfc5322">RFC 5322</a>, but without
-     * {@code '%'}).<br />
+     * {@code '%'}).<br>
      * <a href="https://tools.ietf.org/html/rfc6531">RFC 6531</a> (characters
      * above ASCII-Codes 127) is not supported.
      */
@@ -154,9 +154,9 @@ public abstract class MailUtils {
     }
 
     /**
-     * Build an email address from the local part and the mail domain name.<br/>
-     * Illegal characters in the local part will be replaced by legal ones.<br/>
-     * The mail domain name will not be validated.<br/>
+     * Build an email address from the local part and the mail domain name.<br>
+     * Illegal characters in the local part will be replaced by legal ones.<br>
+     * The mail domain name will not be validated.<br>
      * So this method can be used to generate mail addresses from the name of a
      * group, for example.
      *

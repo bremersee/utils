@@ -212,10 +212,8 @@ public abstract class LocaleUtils {
 
     /**
      * <p>Converts a String to a Locale.</p>
-     * <p>
      * <p>This method takes the string format of a locale and creates the
      * locale object from it.</p>
-     * <p>
      * <pre>
      *   LocaleUtils.fromString(null)         = new Locale(Locale.getDefault().getLanguage())
      *   LocaleUtils.fromString("")           = new Locale(Locale.getDefault().getLanguage())
@@ -224,7 +222,6 @@ public abstract class LocaleUtils {
      *   LocaleUtils.fromString("en-GB")      = new Locale("en", "GB")
      *   LocaleUtils.fromString("en_GB_xxx")  = new Locale("en", "GB", "xxx")
      * </pre>
-     * <p>
      * This method validates the input not strictly:
      * <pre>
      *   The language code can be lowercase, uppercase or an ISO3 language code.

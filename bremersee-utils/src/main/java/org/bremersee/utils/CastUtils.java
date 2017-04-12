@@ -41,6 +41,10 @@ public abstract class CastUtils {
 
     /**
      * Casts an iterator.
+     *
+     * @param iter the iterator
+     * @param <T>  type of the entries
+     * @return the casted iterator
      */
     public static <T> Iterator<T> cast(Iterator<?> iter) {
         return (Iterator<T>) iter;
@@ -48,6 +52,11 @@ public abstract class CastUtils {
 
     /**
      * Casts an iterator.
+     *
+     * @param iter the iterator
+     * @param t    type of the entries
+     * @param <T>  type of the entries
+     * @return the casted iterator
      */
     @SuppressWarnings("unused")
     public static <T> Iterator<T> cast(Iterator<?> iter, Class<T> t) {
@@ -56,6 +65,10 @@ public abstract class CastUtils {
 
     /**
      * Casts a collection.
+     *
+     * @param col the collection
+     * @param <T> type of the entries
+     * @return the casted collection
      */
     public static <T> Collection<T> cast(Collection<?> col) {
         return (Collection<T>) col;
@@ -63,6 +76,11 @@ public abstract class CastUtils {
 
     /**
      * Casts a collection.
+     *
+     * @param col the collection
+     * @param t   type of the entries
+     * @param <T> type of the entries
+     * @return the casted collection
      */
     @SuppressWarnings("unused")
     public static <T> Collection<T> cast(Collection<?> col, Class<T> t) {
@@ -71,6 +89,10 @@ public abstract class CastUtils {
 
     /**
      * Casts a list.
+     *
+     * @param list the list
+     * @param <T>  type of the entries
+     * @return the casted list
      */
     public static <T> List<T> cast(List<?> list) {
         return (List<T>) list;
@@ -78,6 +100,11 @@ public abstract class CastUtils {
 
     /**
      * Casts a list.
+     *
+     * @param list the list
+     * @param t    type of the entries
+     * @param <T>  type of the entries
+     * @return the casted list
      */
     @SuppressWarnings("unused")
     public static <T> List<T> cast(List<?> list, Class<T> t) {
@@ -86,6 +113,10 @@ public abstract class CastUtils {
 
     /**
      * Casts a set.
+     *
+     * @param set the set
+     * @param <T> type of the entries
+     * @return the casted set
      */
     public static <T> Set<T> cast(Set<?> set) {
         return (Set<T>) set;
@@ -93,6 +124,11 @@ public abstract class CastUtils {
 
     /**
      * Casts a set.
+     *
+     * @param set the set
+     * @param t   type of the entries
+     * @param <T> type of the entries
+     * @return the casted set
      */
     @SuppressWarnings("unused")
     public static <T> Set<T> cast(Set<?> set, Class<T> t) {
@@ -101,6 +137,11 @@ public abstract class CastUtils {
 
     /**
      * Casts a map.
+     *
+     * @param map the map
+     * @param <T> type of the keys
+     * @param <U> type of the values
+     * @return the casted map
      */
     public static <T, U> Map<T, U> cast(Map<?, ?> map) {
         return (Map<T, U>) map;
@@ -108,6 +149,13 @@ public abstract class CastUtils {
 
     /**
      * Casts a map.
+     *
+     * @param map the map
+     * @param t   type of the keys
+     * @param u   type of the values
+     * @param <T> type of the keys
+     * @param <U> type of the values
+     * @return the casted map
      */
     @SuppressWarnings("unused")
     public static <T, U> Map<T, U> cast(Map<?, ?> map, Class<T> t, Class<U> u) {
@@ -116,6 +164,11 @@ public abstract class CastUtils {
 
     /**
      * Casts a map entry.
+     *
+     * @param mapEntry the map entry
+     * @param <T>      type of the key
+     * @param <U>      type of the value
+     * @return the casted map entry
      */
     public static <T, U> Map.Entry<T, U> cast(Map.Entry<?, ?> mapEntry) {
         return (Map.Entry<T, U>) mapEntry;
@@ -123,6 +176,13 @@ public abstract class CastUtils {
 
     /**
      * Casts a map entry.
+     *
+     * @param mapEntry the map entry
+     * @param t        type of the key
+     * @param u        type of the value
+     * @param <T>      type of the key
+     * @param <U>      type of the value
+     * @return the casted map entry
      */
     @SuppressWarnings("unused")
     public static <T, U> Map.Entry<T, U> cast(Map.Entry<?, ?> mapEntry, Class<T> t, Class<U> u) {

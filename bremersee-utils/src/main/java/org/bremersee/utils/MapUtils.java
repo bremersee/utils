@@ -53,7 +53,7 @@ public abstract class MapUtils {
 
         /**
          * Create a map entry comparator with the specified value comparator.
-         * <br/>
+         * <br>
          * If the value comparator is {@code null}, the natural sort order will
          * be used.
          *
@@ -94,6 +94,8 @@ public abstract class MapUtils {
      * map.
      *
      * @param map the map
+     * @param <K>             type of the key
+     * @param <V>             type of the value
      * @return the sorted map
      */
     public static <K, V> Map<K, V> sort(final Map<? extends K, ? extends V> map) {
@@ -105,6 +107,8 @@ public abstract class MapUtils {
      *
      * @param map             the map
      * @param valueComparator a value comparator
+     * @param <K>             type of the key
+     * @param <V>             type of the value
      * @return the sorted map
      */
     @SuppressWarnings("unchecked")
@@ -217,11 +221,7 @@ public abstract class MapUtils {
                 return list;
             } else {
                 final Object[] values = (Object[]) value;
-                final List<Object> list = new ArrayList<>(values.length);
-                for (final Object v : values) {
-                    list.add(v);
-                }
-                return list;
+                return new ArrayList<>(Arrays.asList(values));
             }
         }
         final List<Object> list = new ArrayList<>(1);
@@ -536,6 +536,7 @@ public abstract class MapUtils {
      *                     null or a value of the specified key exists and has a type of
      *                     the wanted enumeration
      * @param defaultValue a default value
+     * @param <T>          type of the enum
      * @return the value of the key
      */
     @SuppressWarnings("SameParameterValue")
